@@ -52,8 +52,10 @@ jobs:
           fi
 
       # Skips versions already on Thunderstore, so re-pushing a tag is safe. Thunderstore has no Trash Day
-      # community yet; "trash-day" is a placeholder slug. Fix it (and add --categories) once the community exists.
+      # community yet; "trash-day" is a placeholder slug. Fix it, add --categories and drop continue-on-error
+      # once the community exists.
       - name: Publish to Thunderstore
+        continue-on-error: true
         env:
           THUNDERSTORE_TOKEN: ${{ secrets.THUNDERSTORE_TOKEN }}
         run: scripts/thunderstore-publish.sh "dist/darkharasho-MorePlayers-$VERSION.zip" --community trash-day
