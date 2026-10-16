@@ -1,0 +1,64 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Check tag matches manifest version
+        run: |
+          version="$(jq -r .version_number thunderstore/manifest.json)"
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match manifest version $version"
+            exit 1
+          fi
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+
+      # The game isn't installed here, so the build uses the reference assemblies in lib/refs.
+      - name: Build and package
+        run: scripts/package.sh
+
+      - name: Release notes from changelog
+        run: |
+          awk -v v="## $VERSION" '$0 == v {on=1; next} /^## / {on=0} on' CHANGELOG.md > notes.md
+          cat >> notes.md <<EOF
+
+          For Trash Day. Install with r2modman, or download \`darkharasho-MorePlayers-$VERSION.zip\` below and use **Settings → Import local mod**. Requires BepInExPack 5.4.2305. Only the host needs it.
+          EOF
+
+      - name: Create or update GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          zip="dist/darkharasho-MorePlayers-$VERSION.zip"
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" "$zip" --clobber
+            # Deleting a tag to re-push it turns its release into a draft; publish it again.
+            gh release edit "$GITHUB_REF_NAME" --draft=false
+          else
+            gh release create "$GITHUB_REF_NAME" "$zip" --title "MorePlayers $VERSION" --notes-file notes.md
+          fi
+
+      # Skips versions already on Thunderstore, so re-pushing a tag is safe. Thunderstore has no Trash Day
+      # community yet; "trash-day" is a placeholder slug. Fix it (and add --categories) once the community exists.
+      - name: Publish to Thunderstore
+        env:
+          THUNDERSTORE_TOKEN: ${{ secrets.THUNDERSTORE_TOKEN }}
+        run: scripts/thunderstore-publish.sh "dist/darkharasho-MorePlayers-$VERSION.zip" --community trash-day
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: darkharasho-MorePlayers-${{ env.VERSION }}
+          path: dist/*.zip
