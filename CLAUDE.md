@@ -14,4 +14,4 @@ A BepInEx/Harmony mod for Trash Day (Off by One Games, Steam app 3314580, Unity 
 - Decompile with `DOTNET_ROOT=/home/linuxbrew/.linuxbrew/opt/dotnet/libexec ~/.dotnet/tools/ilspycmd -p -o /tmp/trashday-src .../Trash_Data/Managed/Assembly-CSharp.dll`.
 - Thunderstore had no Trash Day community at first release. The workflow's `--community trash-day` is a placeholder; set the real slug and `--categories` once it exists, and remove the step's `continue-on-error`.
 - No r2modman profile yet: BepInEx is installed straight into the game folder, and the build deploys there.
-- Sibling mods: `trashday-admin-menu` and `trashday-mod-settings` (planned). Settings carry `ConfigurationManagerAttributes` so the settings menu can show them.
+- Sibling mods: `trashday-admin-menu`, `trashday-mod-settings` (planned). Settings carry `ConfigurationManagerAttributes` so the settings menu can show them.
