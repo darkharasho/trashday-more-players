@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a3f44"/>
+      <stop offset="1" stop-color="#1c1f22"/>
+    </linearGradient>
+    <linearGradient id="can" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3f8f4a"/>
+      <stop offset="0.5" stop-color="#5cb866"/>
+      <stop offset="1" stop-color="#2f6e38"/>
+    </linearGradient>
+    <linearGradient id="badge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd84a"/>
+      <stop offset="1" stop-color="#e09a12"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="36" fill="url(#bg)"/>
+  <!-- trash can -->
+  <rect x="58" y="70" width="112" height="16" rx="6" fill="#6fcf79"/>
+  <rect x="96" y="58" width="36" height="14" rx="5" fill="#6fcf79"/>
+  <path d="M66 92 H162 L152 214 Q151 222 143 222 H85 Q77 222 76 214 Z" fill="url(#can)"/>
+  <path d="M94 108 L98 204 M114 108 V204 M134 108 L130 204" stroke="#24552b" stroke-width="7" stroke-linecap="round"/>
+  <!-- player-count badge -->
+  <circle cx="186" cy="178" r="50" fill="#15171a"/>
+  <circle cx="186" cy="178" r="44" fill="url(#badge)"/>
+  <text x="186" y="196" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif" font-weight="bold" font-size="50" fill="#1c1f22">12</text>
+</svg>
