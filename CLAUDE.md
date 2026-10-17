@@ -7,7 +7,7 @@ A BepInEx/Harmony mod for Trash Day (Off by One Games, Steam app 3314580, Unity 
 - `src/MorePlayers/Plugin.cs` — config and Harmony bootstrap
 - `src/MorePlayers/Patches/MaxPlayersPatches.cs` — `MaxPlayersCap` and the `CreateLobby`/`RequestCreateLobby` prefixes
 - `scripts/package.sh` builds the Thunderstore zip; `scripts/update-refs.sh` regenerates `lib/refs` for CI
-- Release: bump the version in `Plugin.cs`, the csproj, `thunderstore/manifest.json` and `CHANGELOG.md`, then push tag `v<version>`
+- Release: bump the version in `Plugin.cs`, the csproj, `thunderstore/manifest.json` and `CHANGELOG.md`, then push tag `v<version>` (Thunderstore and GitHub), or `v<version>-<suffix>` such as `v0.1.0-beta.1` for a GitHub-only prerelease
 
 ## Notes
 

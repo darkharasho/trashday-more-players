@@ -20,11 +20,16 @@ jobs:
       - name: Check tag matches manifest version
         run: |
           version="$(jq -r .version_number thunderstore/manifest.json)"
-          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+          # A suffixed tag (v1.2.3-beta.1) is a GitHub-only prerelease: Thunderstore is skipped.
+          if [ "v$version" != "${GITHUB_REF_NAME%%-*}" ]; then
             echo "::error::Tag $GITHUB_REF_NAME does not match manifest version $version"
             exit 1
           fi
           echo "VERSION=$version" >> "$GITHUB_ENV"
+          case "$GITHUB_REF_NAME" in
+            *-*) echo "PRERELEASE=true" >> "$GITHUB_ENV" ;;
+            *) echo "PRERELEASE=false" >> "$GITHUB_ENV" ;;
+          esac
 
       # The game isn't installed here, so the build uses the reference assemblies in lib/refs.
       - name: Build and package
@@ -48,13 +53,14 @@ jobs:
             # Deleting a tag to re-push it turns its release into a draft; publish it again.
             gh release edit "$GITHUB_REF_NAME" --draft=false
           else
-            gh release create "$GITHUB_REF_NAME" "$zip" --title "MorePlayers $VERSION" --notes-file notes.md
+            gh release create "$GITHUB_REF_NAME" "$zip" --title "MorePlayers ${GITHUB_REF_NAME#v}" --notes-file notes.md --prerelease=$PRERELEASE
           fi
 
       # Skips versions already on Thunderstore, so re-pushing a tag is safe. Thunderstore has no Trash Day
       # community yet; "trash-day" is a placeholder slug. Fix it, add --categories and drop continue-on-error
       # once the community exists.
       - name: Publish to Thunderstore
+        if: env.PRERELEASE == 'false'
         continue-on-error: true
         env:
           THUNDERSTORE_TOKEN: ${{ secrets.THUNDERSTORE_TOKEN }}
