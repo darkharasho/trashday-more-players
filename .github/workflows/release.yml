@@ -40,14 +40,14 @@ jobs:
           awk -v v="## $VERSION" '$0 == v {on=1; next} /^## / {on=0} on' CHANGELOG.md > notes.md
           cat >> notes.md <<EOF
 
-          For Trash Day. Install with r2modman, or download \`darkharasho-MorePlayers-$VERSION.zip\` below and use **Settings → Import local mod**. Requires BepInExPack 5.4.2305. Only the host needs it.
+          For Trash Day. Install with r2modman, or download \`darkharasho-TrashDayMorePlayers-$VERSION.zip\` below and use **Settings → Import local mod**. Requires BepInExPack 5.4.2305. Only the host needs it.
           EOF
 
       - name: Create or update GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          zip="dist/darkharasho-MorePlayers-$VERSION.zip"
+          zip="dist/darkharasho-TrashDayMorePlayers-$VERSION.zip"
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
             gh release upload "$GITHUB_REF_NAME" "$zip" --clobber
             # Deleting a tag to re-push it turns its release into a draft; publish it again.
@@ -56,17 +56,14 @@ jobs:
             gh release create "$GITHUB_REF_NAME" "$zip" --title "MorePlayers ${GITHUB_REF_NAME#v}" --notes-file notes.md --prerelease=$PRERELEASE
           fi
 
-      # Skips versions already on Thunderstore, so re-pushing a tag is safe. Thunderstore has no Trash Day
-      # community yet; "trash-day" is a placeholder slug. Fix it, add --categories and drop continue-on-error
-      # once the community exists.
+      # Skips versions already on Thunderstore, so re-pushing a tag is safe.
       - name: Publish to Thunderstore
         if: env.PRERELEASE == 'false'
-        continue-on-error: true
         env:
           THUNDERSTORE_TOKEN: ${{ secrets.THUNDERSTORE_TOKEN }}
-        run: scripts/thunderstore-publish.sh "dist/darkharasho-MorePlayers-$VERSION.zip" --community trash-day
+        run: scripts/thunderstore-publish.sh "dist/darkharasho-TrashDayMorePlayers-$VERSION.zip" --community trash-day --categories mods
 
       - uses: actions/upload-artifact@v4
         with:
-          name: darkharasho-MorePlayers-${{ env.VERSION }}
+          name: darkharasho-TrashDayMorePlayers-${{ env.VERSION }}
           path: dist/*.zip

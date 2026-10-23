@@ -12,7 +12,7 @@ namespace MorePlayers
     {
         public const string PluginGuid = "com.darkharasho.trashday.moreplayers";
         public const string PluginName = "MorePlayers";
-        public const string PluginVersion = "0.1.0";
+        public const string PluginVersion = "0.1.1";
 
         internal static ManualLogSource Log;
         internal static ConfigEntry<int> MaxPlayers;

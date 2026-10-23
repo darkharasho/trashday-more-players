@@ -32,7 +32,7 @@ if errors:
 print(v)
 PY
 )"
-zipfile="$root/dist/darkharasho-MorePlayers-$version.zip"
+zipfile="$root/dist/darkharasho-TrashDayMorePlayers-$version.zip"
 
 dotnet build "$root/src/MorePlayers/MorePlayers.csproj" -c Release
 

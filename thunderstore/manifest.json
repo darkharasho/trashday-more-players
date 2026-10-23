@@ -1,6 +1,6 @@
 {
-    "name": "MorePlayers",
-    "version_number": "0.1.0",
+    "name": "TrashDayMorePlayers",
+    "version_number": "0.1.1",
     "website_url": "https://github.com/darkharasho/trashday-more-players",
     "description": "Raises Trash Day's lobby cap from 6 to 12 players (configurable up to 250). Only the host needs it.",
     "dependencies": [
