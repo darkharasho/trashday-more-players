@@ -21,7 +21,7 @@
     <ProfilePath Condition="'$(ProfilePath)' == ''">$(GamePath)</ProfilePath>
     <ManagedPath>$(GamePath)/Trash_Data/Managed</ManagedPath>
     <BepInExCorePath>$(ProfilePath)/BepInEx/core</BepInExCorePath>
-    <DeployPath>$(ProfilePath)/BepInEx/plugins/darkharasho-MorePlayers</DeployPath>
+    <DeployPath>$(ProfilePath)/BepInEx/plugins/darkharasho-TrashDayMorePlayers</DeployPath>
   </PropertyGroup>
 
   <!-- Without the game installed (CI), or with -p:UseRefs=true, build against the reference

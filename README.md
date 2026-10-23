@@ -21,6 +21,6 @@ Raises Trash Day's lobby cap from 6 to **12** players. The cap is configurable f
 
 ## Building
 
-- Install BepInEx 5 into the game folder, then run `dotnet build src/MorePlayers/MorePlayers.csproj -c Release`. The build deploys the DLL to `BepInEx/plugins/darkharasho-MorePlayers/`.
+- Install BepInEx 5 into the game folder, then run `dotnet build src/MorePlayers/MorePlayers.csproj -c Release`. The build deploys the DLL to `BepInEx/plugins/darkharasho-TrashDayMorePlayers/`.
 - Without the game installed, the build falls back to `lib/refs` (regenerate it with `scripts/update-refs.sh`).
 - `scripts/package.sh` builds the Thunderstore zip into `dist/`.
